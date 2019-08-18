@@ -28,9 +28,6 @@ def create_user(username, monthly_salary):
 
     cursor = conn.cursor()
 
-    print(username)
-    print(monthly_salary)
-
     cursor.execute(
         "INSERT INTO USERS(Username, MonthlySalary)"
         "VALUES(?, ?)", (username, monthly_salary),

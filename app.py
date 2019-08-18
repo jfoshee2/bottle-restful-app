@@ -1,10 +1,10 @@
-from json import dumps
+from json import dumps, loads
 
 from bottle import route, run, template, get, request, post, response
 from os import environ
 
 from db_setup import create_tables, add_fake_data, drop_tables
-from db_access import db_users
+from db_access import db_users, db_purchases
 
 
 @get('/api/users')
@@ -15,9 +15,20 @@ def get_users():
 
 @post('/api/users')
 def add_user():
-    username = request.forms.get('username')
-    monthly_salary = request.forms.get('salary')
-    db_users.create_user(username, monthly_salary)
+    request_body = loads(request.body.read())
+    db_users.create_user(request_body['username'], int(request_body['salary']))
+
+
+@get('api/<user_id>/purchases')
+def get_user_purchases(user_id):
+    response.content_type = 'application/json'
+    return dumps(db_purchases.get_purchases_by_user_id(user_id))
+
+
+@post('api/purchases/<user_id>')
+def add_user_purchase(user_id):
+    request_body = loads(request.body.read())
+    db_purchases.add_purchase_to_user(user_id, int(request_body['cost']))
 
 
 @route('/')

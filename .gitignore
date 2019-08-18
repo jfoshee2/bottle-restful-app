@@ -1,4 +1,9 @@
 .idea/
 venv/
 
+*/*.pyc
+
+db_access/*.pyc
+db_setup/*.pyc
+
 db.sqlite

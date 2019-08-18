@@ -17,7 +17,3 @@ def add_data():
     ).fetchall()
 
     conn.close()
-
-    print(rows)
-
-
