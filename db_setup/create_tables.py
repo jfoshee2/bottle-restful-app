@@ -16,6 +16,7 @@ def create():
         "CREATE TABLE IF NOT EXISTS Purchases("
         "   ID INTEGER PRIMARY KEY AUTOINCREMENT,"
         "   UserID int,"
+        "   PurchaseDate Date,"
         "   Cost int"
         ");"
     )

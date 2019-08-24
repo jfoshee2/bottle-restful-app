@@ -19,13 +19,13 @@ def add_user():
     db_users.create_user(request_body['username'], int(request_body['salary']))
 
 
-@get('api/<user_id>/purchases')
+@get('/api/purchases/<user_id>')
 def get_user_purchases(user_id):
     response.content_type = 'application/json'
     return dumps(db_purchases.get_purchases_by_user_id(user_id))
 
 
-@post('api/purchases/<user_id>')
+@post('/api/purchases/<user_id>')
 def add_user_purchase(user_id):
     request_body = loads(request.body.read())
     db_purchases.add_purchase_to_user(user_id, int(request_body['cost']))

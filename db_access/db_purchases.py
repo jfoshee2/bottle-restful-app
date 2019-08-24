@@ -25,13 +25,13 @@ def get_purchases_by_user_id(user_id):
 
 
 def add_purchase_to_user(user_id, purchase_cost):
-    conn = sqlite3.connect("../db.sqlite")
+    conn = sqlite3.connect("../db.sqlite", isolation_level=None)
 
     cursor = conn.cursor()
 
     cursor.execute(
-        "INSERT INTO Purchases(UserID, Cost)"
-        "VALUES(?, ?)", (user_id, purchase_cost),
+        "INSERT INTO Purchases(UserID, PurchaseDate, Cost)"
+        "VALUES(?, CURRENT_TIMESTAMP, ?)", (user_id, purchase_cost),
     )
 
     conn.close()
