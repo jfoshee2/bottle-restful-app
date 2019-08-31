@@ -35,3 +35,19 @@ def add_purchase_to_user(user_id, purchase_cost):
     )
 
     conn.close()
+
+
+def get_amount_spent_for_current_month(user_id):
+    conn = sqlite3.connect("../db.sqlite")
+
+    cursor = conn.cursor()
+
+    rows = cursor.execute(
+        "SELECT SUM(Cost) AS sum                                           "
+        "  FROM Purchases                                                  "
+        " WHERE UserID=?                                                   "
+        "   AND PurchaseDate < DATE('now', 'start of month', '+1 month')   "
+        "   AND PurchaseDate > DATE('now', 'start of month', '-1 day')     ", user_id,
+    ).fetchall()
+
+    return rows[0][0]

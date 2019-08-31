@@ -31,6 +31,25 @@ def add_user_purchase(user_id):
     db_purchases.add_purchase_to_user(user_id, int(request_body['cost']))
 
 
+@get('/api/remaining/<user_id>')
+def get_remaining_salary(user_id):
+    response.content_type = 'application/json'
+    amount_spent = db_purchases.get_amount_spent_for_current_month(user_id)
+    monthly_salary = db_users.get_user_monthly_salary(user_id)
+    remaining = int(monthly_salary) - int(amount_spent)
+    return dumps({'remaining': remaining})
+
+
+@get('/api/savings/<user_id>')
+def get_savings_per_month(user_id):
+    pass
+
+
+@post('/api/login')
+def login():
+    pass
+
+
 @route('/')
 def main():
     return template('index.html')

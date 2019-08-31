@@ -34,3 +34,17 @@ def create_user(username, monthly_salary):
     )
 
     conn.close()
+
+
+def get_user_monthly_salary(user_id):
+    conn = sqlite3.connect("../db.sqlite")
+
+    cursor = conn.cursor()
+
+    rows = cursor.execute(
+        "SELECT MonthlySalary   "
+        "  FROM Users           "
+        " WHERE ID=?            ", user_id,
+    ).fetchall()
+
+    return rows[0][0]
