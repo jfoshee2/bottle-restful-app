@@ -1,10 +1,8 @@
-import sqlite3
-
 from db_access import util
 
 
 def get_purchases_by_user_id(user_id):
-    conn = sqlite3.connect("../db.sqlite")
+    conn = util.get_connection()
 
     cursor = conn.cursor()
 
@@ -25,7 +23,7 @@ def get_purchases_by_user_id(user_id):
 
 
 def add_purchase_to_user(user_id, purchase_cost):
-    conn = sqlite3.connect("../db.sqlite", isolation_level=None)
+    conn = util.get_connection(None)
 
     cursor = conn.cursor()
 
@@ -38,7 +36,7 @@ def add_purchase_to_user(user_id, purchase_cost):
 
 
 def get_amount_spent_for_current_month(user_id):
-    conn = sqlite3.connect("../db.sqlite")
+    conn = util.get_connection()
 
     cursor = conn.cursor()
 

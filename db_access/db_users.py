@@ -1,10 +1,8 @@
-import sqlite3
-
 from db_access import util
 
 
 def get_all_users():
-    conn = sqlite3.connect("../db.sqlite")
+    conn = util.get_connection()
 
     cursor = conn.cursor()
 
@@ -24,7 +22,7 @@ def get_all_users():
 
 
 def create_user(username, monthly_salary):
-    conn = sqlite3.connect("../db.sqlite", isolation_level=None)
+    conn = util.get_connection(None)
 
     cursor = conn.cursor()
 
@@ -37,7 +35,7 @@ def create_user(username, monthly_salary):
 
 
 def get_user_monthly_salary(user_id):
-    conn = sqlite3.connect("../db.sqlite")
+    conn = util.get_connection()
 
     cursor = conn.cursor()
 
