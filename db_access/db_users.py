@@ -11,12 +11,13 @@ def get_all_users():
         "  FROM Users    "
     ).fetchall()
 
-    conn.close()
-
     results = []
 
     for row in rows:
         results.append(util.map_row(cursor, row))
+
+    cursor.close()
+    conn.close()
 
     return results
 
@@ -31,6 +32,7 @@ def create_user(username, monthly_salary):
         "VALUES(?, ?)", (username, monthly_salary),
     )
 
+    cursor.close()
     conn.close()
 
 
@@ -44,5 +46,8 @@ def get_user_monthly_salary(user_id):
         "  FROM Users           "
         " WHERE ID=?            ", user_id,
     ).fetchall()
+
+    cursor.close()
+    conn.close()
 
     return rows[0][0]

@@ -12,12 +12,13 @@ def get_purchases_by_user_id(user_id):
         " WHERE UserID=?    ", user_id,
     ).fetchall()
 
-    conn.close()
-
     results = []
 
     for row in rows:
         results.append(util.map_row(cursor, row))
+
+    cursor.close()
+    conn.close()
 
     return results
 
@@ -32,6 +33,7 @@ def add_purchase_to_user(user_id, purchase_cost):
         "VALUES(?, CURRENT_TIMESTAMP, ?)", (user_id, purchase_cost),
     )
 
+    cursor.close()
     conn.close()
 
 
@@ -47,6 +49,9 @@ def get_amount_spent_for_current_month(user_id):
         "   AND PurchaseDate < DATE('now', 'start of month', '+1 month')   "
         "   AND PurchaseDate > DATE('now', 'start of month', '-1 day')     ", user_id,
     ).fetchall()
+
+    cursor.close()
+    conn.close()
 
     return rows[0][0]
 
@@ -69,6 +74,9 @@ def get_month_purchases(user_id, month, year):
     for row in rows:
         results.append(util.map_row(cursor, row))
 
+    cursor.close()
+    conn.close()
+
     return results
 
 
@@ -84,5 +92,8 @@ def get_month_purchases_cost(user_id, month, year):
         "   AND STRFTIME('%m', PurchaseDate)=?           "
         "   AND STRFTIME('%Y', PurchaseDate)=?           ", (user_id, month, year),
     ).fetchall()
+
+    cursor.close()
+    conn.close()
 
     return rows[0][0]
