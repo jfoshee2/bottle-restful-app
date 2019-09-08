@@ -40,9 +40,12 @@ def get_remaining_salary(user_id):
     return dumps({'remaining': remaining})
 
 
-@get('/api/savings/<user_id>')
-def get_savings_per_month(user_id):
-    pass
+@get('/api/budget/<user_id>')
+def get_savings_by_month(user_id):
+    response.content_type = 'application/json'
+    month_purchases = db_purchases.get_month_purchases(user_id, request.query['month'], request.query['year'])
+    month_cost = db_purchases.get_month_purchases_cost(user_id, request.query['month'], request.query['year'])
+    return dumps({'purchases': month_purchases, 'sum': month_cost})
 
 
 @post('/api/login')

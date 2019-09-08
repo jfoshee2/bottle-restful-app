@@ -49,3 +49,40 @@ def get_amount_spent_for_current_month(user_id):
     ).fetchall()
 
     return rows[0][0]
+
+
+def get_month_purchases(user_id, month, year):
+    conn = util.get_connection()
+
+    cursor = conn.cursor()
+
+    rows = cursor.execute(
+        "SELECT *                                        "
+        "  FROM Purchases                                "
+        " WHERE UserID=?                                 "
+        "   AND STRFTIME('%m', PurchaseDate)=?           "
+        "   AND STRFTIME('%Y', PurchaseDate)=?           ", (user_id, month, year),
+    ).fetchall()
+
+    results = []
+
+    for row in rows:
+        results.append(util.map_row(cursor, row))
+
+    return results
+
+
+def get_month_purchases_cost(user_id, month, year):
+    conn = util.get_connection()
+
+    cursor = conn.cursor()
+
+    rows = cursor.execute(
+        "SELECT SUM(Cost) AS sum                         "
+        "  FROM Purchases                                "
+        " WHERE UserID=?                                 "
+        "   AND STRFTIME('%m', PurchaseDate)=?           "
+        "   AND STRFTIME('%Y', PurchaseDate)=?           ", (user_id, month, year),
+    ).fetchall()
+
+    return rows[0][0]
