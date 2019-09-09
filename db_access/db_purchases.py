@@ -33,8 +33,18 @@ def add_purchase_to_user(user_id, purchase_cost):
         "VALUES(?, CURRENT_TIMESTAMP, ?)", (user_id, purchase_cost),
     )
 
+    rows = cursor.execute(
+        "SELECT * "
+        "FROM Purchaes "
+        "WHERE id = ?", (cursor.lastrowid,)
+    ).fetchall()
+
+    result = util.map_row(cursor, rows[0])
+
     cursor.close()
     conn.close()
+
+    return result
 
 
 def get_amount_spent_for_current_month(user_id):
