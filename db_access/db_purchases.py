@@ -35,7 +35,7 @@ def add_purchase_to_user(user_id, purchase_cost):
 
     rows = cursor.execute(
         "SELECT * "
-        "FROM Purchaes "
+        "FROM Purchases "
         "WHERE id = ?", (cursor.lastrowid,)
     ).fetchall()
 
