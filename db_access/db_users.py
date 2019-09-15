@@ -32,8 +32,18 @@ def create_user(username, monthly_salary):
         "VALUES(?, ?)", (username, monthly_salary),
     )
 
+    rows = cursor.execute(
+        "SELECT * "
+        "FROM USERS "
+        "WHERE id = ?", (cursor.lastrowid,)
+    ).fetchall()
+
+    result = util.map_row(cursor, rows[0])
+
     cursor.close()
     conn.close()
+
+    return result
 
 
 def get_user_monthly_salary(user_id):

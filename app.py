@@ -16,7 +16,7 @@ def get_users():
 @post('/api/users')
 def add_user():
     request_body = loads(request.body.read())
-    db_users.create_user(request_body['username'], int(request_body['salary']))
+    return dumps(db_users.create_user(request_body['username'], int(request_body['salary'])))
 
 
 @get('/api/purchases/<user_id>')
@@ -28,7 +28,7 @@ def get_user_purchases(user_id):
 @post('/api/purchases/<user_id>')
 def add_user_purchase(user_id):
     request_body = loads(request.body.read())
-    db_purchases.add_purchase_to_user(user_id, int(request_body['cost']))
+    return dumps(db_purchases.add_purchase_to_user(user_id, int(request_body['cost'])))
 
 
 @get('/api/remaining/<user_id>')
