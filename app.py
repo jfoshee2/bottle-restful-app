@@ -15,6 +15,7 @@ def get_users():
 
 @post('/api/users')
 def add_user():
+    response.content_type = 'application/json'
     request_body = loads(request.body.read())
     return dumps(db_users.create_user(request_body['username'], int(request_body['salary'])))
 
@@ -27,6 +28,7 @@ def get_user_purchases(user_id):
 
 @post('/api/purchases/<user_id>')
 def add_user_purchase(user_id):
+    response.content_type = 'application/json'
     request_body = loads(request.body.read())
     return dumps(db_purchases.add_purchase_to_user(user_id, int(request_body['cost'])))
 
