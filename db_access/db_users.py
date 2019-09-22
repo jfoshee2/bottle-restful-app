@@ -9,11 +9,11 @@ def get_all_users():
     )
 
 
-def create_user(username, monthly_salary):
+def create_user(username, pw_hash, monthly_salary):
 
     last_id = util.insert_row(
-        "INSERT INTO USERS(Username, MonthlySalary)"
-        "VALUES(?, ?)", username, monthly_salary,
+        "INSERT INTO USERS(Username, PWHash, MonthlySalary)"
+        "VALUES(?, ?, ?)", username, pw_hash, monthly_salary,
     )
 
     return util.get_query_single_row(
@@ -29,4 +29,13 @@ def get_user_monthly_salary(user_id):
         "SELECT MonthlySalary   "
         "  FROM Users           "
         " WHERE ID=?            ", user_id,
+    )
+
+
+def login_user(user_name, pw_hash):
+    return util.get_query_single_row(
+        "SELECT *               "
+        "  FROM Users           "
+        " WHERE Username=?      "
+        "   AND PWHash=?        ", user_name, pw_hash
     )

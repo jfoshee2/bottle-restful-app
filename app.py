@@ -5,6 +5,7 @@ from os import environ
 
 from db_setup import create_tables, add_fake_data, drop_tables
 from db_access import db_users, db_purchases
+from service import user_service
 
 
 @get('/api/users')
@@ -17,7 +18,13 @@ def get_users():
 def add_user():
     response.content_type = 'application/json'
     request_body = loads(request.body.read())
-    return dumps(db_users.create_user(request_body['username'], int(request_body['salary'])))
+    return dumps(
+        user_service.create_user(
+            request_body['username'],
+            str(request_body['pw']).encode('utf-8'),
+            int(request_body['salary'])
+        )
+    )
 
 
 @get('/api/purchases/<user_id>')
@@ -52,7 +59,12 @@ def get_savings_by_month(user_id):
 
 @post('/api/login')
 def login():
-    pass
+    response.content_type = 'application/json'
+    request_body = loads(request.body.read())
+    try:
+        return user_service.login_user(request_body['username'], str(request_body['pw']).encode('utf-8'))
+    except IndexError:
+        response.status = 401
 
 
 @route('/')

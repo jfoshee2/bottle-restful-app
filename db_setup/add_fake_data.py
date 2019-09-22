@@ -1,19 +1,7 @@
-import sqlite3
+from service import user_service
 
 
 def add_data():
-    conn = sqlite3.connect("../db.sqlite", isolation_level=None)
-
-    conn.cursor().execute(
-        "INSERT INTO Users(Username, MonthlySalary)"
-        "VALUES ('user1', 3000),"
-        "('user2', 2000),"
-        "('user3', 1000);"
-    )
-
-    rows = conn.cursor().execute(
-        "SELECT *        "
-        "  FROM Users    "
-    ).fetchall()
-
-    conn.close()
+    user_service.create_user("user1", "somepassword", 3000)
+    user_service.create_user("user2", "pass1234", 4000)
+    user_service.create_user("user3", "pass5678", 5000)

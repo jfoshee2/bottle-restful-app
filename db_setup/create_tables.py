@@ -6,9 +6,10 @@ def create():
 
     conn.cursor().execute(
         "CREATE TABLE IF NOT EXISTS Users("
-        "   ID INTEGER PRIMARY KEY AUTOINCREMENT,"
-        "   Username varchar(255),"
-        "   MonthlySalary int"
+        "   ID INTEGER PRIMARY KEY AUTOINCREMENT,   "
+        "   PWHash varchar,                         "
+        "   Username varchar(255),                  "
+        "   MonthlySalary int                       "
         ");"
     )
 
