@@ -6,4 +6,8 @@ venv/
 db_access/*.pyc
 db_setup/*.pyc
 
+db_access/__pycache__/*
+db_setup/__pycache__/*
+service/__pycache__/*
+
 db.sqlite
