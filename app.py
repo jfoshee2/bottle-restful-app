@@ -59,10 +59,12 @@ def get_savings_by_month(user_id):
 
 @post('/api/login')
 def login():
-    response.content_type = 'text/plain'
     request_body = loads(request.body.read())
     try:
-        return user_service.login_user(request_body['username'], str(request_body['pw']).encode('utf-8'))
+        response.set_header(
+            'token',
+            user_service.login_user(request_body['username'], str(request_body['pw']).encode('utf-8'))
+        )
     except IndexError:
         response.status = 401
 
