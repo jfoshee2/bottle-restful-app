@@ -18,12 +18,13 @@ def get_users():
 def add_user():
     response.content_type = 'application/json'
     request_body = loads(request.body.read())
-    return dumps(
-        user_service.create_user(
+    response.set_header(
+        'Authorization',
+        'Bearer ' + user_service.create_user(
             request_body['username'],
             str(request_body['pw']).encode('utf-8'),
             int(request_body['salary'])
-        )
+        ).decode()
     )
 
 
@@ -63,7 +64,10 @@ def login():
     try:
         response.set_header(
             'Authorization',
-            'Bearer ' + str(user_service.login_user(request_body['username'], str(request_body['pw']).encode('utf-8')))
+            'Bearer ' + user_service.login_user(
+                request_body['username'],
+                str(request_body['pw']).encode('utf-8')
+            ).decode()
         )
     except IndexError:
         response.status = 401
