@@ -5,7 +5,7 @@ from os import environ
 
 from db_setup import create_tables, add_fake_data, drop_tables
 from db_access import db_users, db_purchases
-from service import user_service
+from service import user_service, purchase_service
 
 
 @get('/api/users')
@@ -28,17 +28,17 @@ def add_user():
     )
 
 
-@get('/api/purchases/<user_id>')
-def get_user_purchases(user_id):
+@get('/api/purchases')
+def get_user_purchases():
     response.content_type = 'application/json'
-    return dumps(db_purchases.get_purchases_by_user_id(user_id))
+    return dumps(purchase_service.get_user_purchases(request.headers['Authorization']))
 
 
-@post('/api/purchases/<user_id>')
-def add_user_purchase(user_id):
+@post('/api/purchases')
+def add_user_purchase():
     response.content_type = 'application/json'
     request_body = loads(request.body.read())
-    return dumps(db_purchases.add_purchase_to_user(user_id, int(request_body['cost'])))
+    return dumps(purchase_service.add_purchase_to_user(request.headers['Authorization'], int(request_body['cost'])))
 
 
 @get('/api/remaining/<user_id>')
