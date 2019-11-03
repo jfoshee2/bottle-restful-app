@@ -41,21 +41,12 @@ def add_user_purchase():
     return dumps(purchase_service.add_purchase_to_user(request.headers['Authorization'], int(request_body['cost'])))
 
 
-@get('/api/remaining/<user_id>')
-def get_remaining_salary(user_id):
+@get('/api/budget')
+def get_savings_by_month():
     response.content_type = 'application/json'
-    amount_spent = db_purchases.get_amount_spent_for_current_month(user_id)
-    monthly_salary = db_users.get_user_monthly_salary(user_id)
-    remaining = int(monthly_salary) - int(amount_spent)
-    return dumps({'remaining': remaining})
-
-
-@get('/api/budget/<user_id>')
-def get_savings_by_month(user_id):
-    response.content_type = 'application/json'
-    month_purchases = db_purchases.get_month_purchases(user_id, request.query['month'], request.query['year'])
-    month_cost = db_purchases.get_month_purchases_cost(user_id, request.query['month'], request.query['year'])
-    return dumps({'purchases': month_purchases, 'sum': month_cost})
+    return dumps(
+        purchase_service.get_budget(request.headers['Authorization'], request.query['month'], request.query['year'])
+    )
 
 
 @post('/api/login')
