@@ -39,3 +39,11 @@ def login_user(user_name, pw_hash):
         " WHERE Username=?      "
         "   AND PWHash=?        ", user_name, pw_hash
     )
+
+
+def update_salary(user_id, salary):
+    util.update_row(
+        "UPDATE Users           "
+        "   SET MonthlySalary=? "
+        " WHERE ID=?            ", salary, user_id
+    )

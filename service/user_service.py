@@ -20,3 +20,8 @@ def login_user(user_name, password):
         'secret',
         algorithm='HS256'
     )
+
+
+def update_salary(token, salary):
+    user = jwt.decode(token.split(' ')[1], 'secret', algorithm='HS256')
+    db_users.update_salary(user['id'], salary)

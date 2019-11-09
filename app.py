@@ -1,6 +1,6 @@
 from json import dumps, loads
 
-from bottle import route, run, template, get, request, post, response
+from bottle import route, run, template, get, request, post, response, put
 from os import environ
 
 from db_setup import create_tables, add_fake_data, drop_tables
@@ -26,6 +26,13 @@ def add_user():
             int(request_body['salary'])
         ).decode()
     )
+
+
+@put('/api/salary')
+def update_salary():
+    response.content_type = 'application/json'
+    request_body = loads(request.body.read())
+    user_service.update_salary(request.headers['Authorization'], request_body['salary'])
 
 
 @get('/api/purchases')

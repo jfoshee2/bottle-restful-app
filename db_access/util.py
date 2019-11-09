@@ -92,7 +92,7 @@ def get_query_single_result(query, *args):
 
 def insert_row(insert_statement, *args):
     """
-    This utility function is used to execute any update made to the database (Insert, Update, etc.).
+    This utility function is used to insert a row into the database.
 
     :param insert_statement: SQL statement to be executed
 
@@ -109,3 +109,22 @@ def insert_row(insert_statement, *args):
     conn.close()
 
     return last_id
+
+
+def update_row(update_statement, *args):
+    """
+    This utility function is used to update a row in the database.
+
+    :param update_statement: SQL statement to be executed.
+
+    :param args: arguments that are to be passed into SQL statement
+
+    :return:
+    """
+    conn = get_connection(None)
+    cursor = conn.cursor()
+
+    cursor.execute(update_statement,args)
+
+    cursor.close()
+    conn.close()
